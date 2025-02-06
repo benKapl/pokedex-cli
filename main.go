@@ -22,7 +22,7 @@ func main() {
 			input := scanner.Text()
 			words := cleanInput(input)
 			first := words[0]
-			fmt.Printf("Your command was %s", first)
+			fmt.Printf("Your command was: %s\n", first)
 		}
 	}
 }
