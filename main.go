@@ -1,7 +1,10 @@
 package main
 
 func main() {
-	var config config
+	config := config{
+		Next:     "https://pokeapi.co/api/v2/location-area/",
+		Previous: nil,
+	}
 
 	startRepl(&config)
 }
