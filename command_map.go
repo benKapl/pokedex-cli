@@ -1,5 +1,5 @@
 package main
 
-func commandMap(*config) error {
+func commandMap() error {
 	return nil
 }
