@@ -1,10 +1,7 @@
 package main
 
-import (
-	"github.com/benKapl/pokeapi"
-)
-
 func main() {
-	pokeapi.Test()
-	startRepl()
+	var config config
+
+	startRepl(&config)
 }
