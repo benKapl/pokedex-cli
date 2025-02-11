@@ -13,13 +13,14 @@ type (
 	Cache struct {
 		cacheEntry map[string]cacheEntry
 		interval   time.Duration
-		mu         *sync.Mutex
+		mu         sync.Mutex
 	}
 )
 
 func NewCache(interval time.Duration) Cache {
 	return Cache{
-		interval: interval,
-		mu:       &sync.Mutex{},
+		cacheEntry: make(map[string]cacheEntry),
+		interval:   interval,
+		mu:         sync.Mutex{},
 	}
 }

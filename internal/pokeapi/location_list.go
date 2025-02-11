@@ -13,25 +13,34 @@ func (c *Client) ListLocations(pageUrl *string) (RespShallowLocations, error) {
 		url = *pageUrl
 	}
 
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return RespShallowLocations{}, err
-	}
+	var data []byte
 
-	resp, err := c.httpClient.Do(req)
-	if err != nil {
-		return RespShallowLocations{}, err
-	}
-	defer resp.Body.Close()
+	// Check cache before making request
+	if cacheData, exists := c.cache.Get(url); exists {
+		data = cacheData
+	} else {
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			return RespShallowLocations{}, err
+		}
 
-	data, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return RespShallowLocations{}, err
+		resp, err := c.httpClient.Do(req)
+		if err != nil {
+			return RespShallowLocations{}, err
+		}
+		defer resp.Body.Close()
+
+		apiData, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return RespShallowLocations{}, err
+		}
+		c.cache.Add(url, apiData) // Cache response
+		data = apiData
 	}
 
 	locationsResp := RespShallowLocations{}
 
-	err = json.Unmarshal(data, &locationsResp)
+	err := json.Unmarshal(data, &locationsResp)
 	if err != nil {
 		return RespShallowLocations{}, err
 	}
