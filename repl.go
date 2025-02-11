@@ -5,7 +5,15 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/benKapl/pokedex-cli/internal/pokeapi"
 )
+
+type config struct {
+	pokeapiClient    pokeapi.Client
+	nextLocationsURL *string
+	prevLocationsURL *string
+}
 
 func startRepl(cfg *config) {
 	reader := bufio.NewScanner(os.Stdin)
@@ -38,11 +46,6 @@ type cliCommand struct {
 	callback    func(*config) error
 }
 
-type config struct {
-	Next     string
-	Previous *string
-}
-
 func getCommands() map[string]cliCommand {
 	return map[string]cliCommand{
 		"exit": {
@@ -57,13 +60,13 @@ func getCommands() map[string]cliCommand {
 		},
 		"map": {
 			name:        "map",
-			description: "Display the names of the next 20 locations in the Pokemon World",
-			callback:    commandMap,
+			description: "Get the next page of locations",
+			callback:    commandMapf,
 		},
 		"mapb": {
 			name:        "mapb",
-			description: "Display the names of the previous 20 locations in the Pokemon World",
-			callback:    commandMapB,
+			description: "Get the previous page of locations",
+			callback:    commandMapb,
 		},
 	}
 }

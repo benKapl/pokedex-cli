@@ -1,43 +1,40 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-
-	"github.com/benKapl/pokeapi"
 )
 
-func commandMap(config *config) error {
-	res, err := pokeapi.FetchLocations(config.Next)
+func commandMapf(cfg *config) error {
+	locationResp, err := cfg.pokeapiClient.ListLocations(cfg.nextLocationsURL)
 	if err != nil {
 		return err
 	}
-	config.Next = res.Next // update Next
-	config.Previous = res.Previous
+	cfg.nextLocationsURL = locationResp.Next
+	cfg.prevLocationsURL = locationResp.Previous
 
-	for _, result := range res.Results {
-		fmt.Println(result.Name)
+	for _, loc := range locationResp.Results {
+		fmt.Println(loc.Name)
 	}
 
 	return nil
 }
 
-func commandMapB(config *config) error {
-	if config.Previous != nil {
-
-		res, err := pokeapi.FetchLocations(*config.Previous)
-		if err != nil {
-			return err
-		}
-		config.Next = res.Next // update Next
-		config.Previous = res.Previous
-
-		for _, result := range res.Results {
-			fmt.Println(result.Name)
-		}
-
-		return nil
-	} else {
-		fmt.Println("you're on the first page")
-		return nil
+func commandMapb(cfg *config) error {
+	if cfg.prevLocationsURL == nil {
+		return errors.New("you're on the first page")
 	}
+
+	locationResp, err := cfg.pokeapiClient.ListLocations(cfg.prevLocationsURL)
+	if err != nil {
+		return err
+	}
+
+	cfg.nextLocationsURL = locationResp.Next
+	cfg.prevLocationsURL = locationResp.Previous
+
+	for _, loc := range locationResp.Results {
+		fmt.Println(loc.Name)
+	}
+	return nil
 }
