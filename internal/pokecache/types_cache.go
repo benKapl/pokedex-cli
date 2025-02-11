@@ -11,16 +11,17 @@ type (
 		val       []byte
 	}
 	Cache struct {
-		cacheEntry map[string]cacheEntry
-		interval   time.Duration
-		mu         sync.Mutex
+		cache map[string]cacheEntry
+		mu    *sync.Mutex
 	}
 )
 
 func NewCache(interval time.Duration) Cache {
-	return Cache{
-		cacheEntry: make(map[string]cacheEntry),
-		interval:   interval,
-		mu:         sync.Mutex{},
+	c := Cache{
+		cache: make(map[string]cacheEntry),
+		mu:    &sync.Mutex{},
 	}
+
+	go c.reapLoop(interval)
+	return c
 }
