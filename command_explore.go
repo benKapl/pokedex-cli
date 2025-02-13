@@ -35,12 +35,4 @@ func commandExplore(cfg *config, locationName string) error {
 		fmt.Printf("- %s\n", p.Pokemon.Name)
 	}
 	return nil
-
-	// TO DO :
-	// - create the base function
-	// - manage non existent locations
-
-	// - cache management in internal pokeapi
-	// - add test to repl_test.go (startRepl, mutliple parameters)
-
 }
