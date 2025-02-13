@@ -22,30 +22,30 @@ func TestCommandExplore(t *testing.T) {
 	// - good location : - size of input, inclusion of pokemon
 
 	cases := []struct {
-		name         string
-		locationName string
-		expectedErr  error
+		name        string
+		args        []string
+		expectedErr error
 	}{
 		{
-			name:         "Empty location",
-			locationName: "",
-			expectedErr:  errors.New("you must specify a location"),
+			name:        "Empty location",
+			args:        []string{},
+			expectedErr: errors.New("you must specify a location"),
 		},
 		{
-			name:         "Non existent location",
-			locationName: "foo",
-			expectedErr:  errors.New("this location does not exist"),
+			name:        "Non existent location",
+			args:        []string{"foo"},
+			expectedErr: errors.New("this location does not exist"),
 		},
 		{
-			name:         "Valid location",
-			locationName: "canalave-city-area",
-			expectedErr:  nil,
+			name:        "Valid location",
+			args:        []string{"canalave-city-area"},
+			expectedErr: nil,
 		},
 	}
 
 	for _, c := range cases {
 		t.Run(fmt.Sprintf("Test case: %s", c.name), func(t *testing.T) {
-			actualErr := commandExplore(cfgTest, c.locationName)
+			actualErr := commandExplore(cfgTest, c.args...)
 
 			if actualErr == nil && c.expectedErr == nil {
 				return

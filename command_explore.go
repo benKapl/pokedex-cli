@@ -6,15 +6,14 @@ import (
 	"strings"
 )
 
-func commandExplore(cfg *config, locationName string) error {
-	if locationName == "" {
+func commandExplore(cfg *config, args ...string) error {
+	if len(args) == 0 {
 		return errors.New("you must specify a location")
 	}
 
-	fmt.Printf("Exploring %s...\n", locationName)
-
-	exploredLocation, err := cfg.pokeapiClient.ExploreLocation(locationName)
-	if exploredLocation.Names == nil && err != nil {
+	name := args[0]
+	location, err := cfg.pokeapiClient.ExploreLocation(name)
+	if location.Names == nil && err != nil {
 		return errors.New("this location does not exist")
 	}
 
@@ -23,16 +22,10 @@ func commandExplore(cfg *config, locationName string) error {
 		return errors.New(err.Error())
 	}
 
-	pokemons := exploredLocation.PokemonEncounters
-	if len(pokemons) == 0 {
-		fmt.Println("No pokemon found :(")
-		return nil
-	}
-
+	fmt.Printf("Exploring %s...\n", location.Name)
 	fmt.Println("Found pokemon:")
-
-	for _, p := range pokemons {
-		fmt.Printf("- %s\n", p.Pokemon.Name)
+	for _, enc := range location.PokemonEncounters {
+		fmt.Printf("- %s\n", enc.Pokemon.Name)
 	}
 	return nil
 }
