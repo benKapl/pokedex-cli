@@ -31,7 +31,7 @@ func startRepl(cfg *config) {
 		commandName := words[0]
 		var param string
 
-		if len(words) > 0 {
+		if len(words) > 1 {
 			param = words[1]
 		}
 
@@ -79,7 +79,7 @@ func getCommands() map[string]cliCommand {
 		},
 		"explore": {
 			name:        "explore",
-			description: "List pokemons in the location",
+			description: "List pokemons in the specified area",
 			callback:    commandExplore,
 		},
 	}

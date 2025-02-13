@@ -7,8 +7,8 @@ import (
 )
 
 // ExploreLocation
-func (c *Client) ExploreLocation(pageUrl, locationName string) (RespDetailedLocation, error) {
-	url := baseUrl + "/location/area" + locationName
+func (c *Client) ExploreLocation(locationName string) (RespDetailedLocation, error) {
+	url := baseUrl + "/location-area/" + locationName
 
 	var data []byte
 
