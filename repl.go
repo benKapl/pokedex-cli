@@ -7,12 +7,11 @@ import (
 	"strings"
 
 	"github.com/benKapl/pokedex-cli/internal/pokeapi"
-	"github.com/benKapl/pokedex-cli/internal/pokecache"
 )
 
 type config struct {
 	pokeapiClient    pokeapi.Client
-	cache            pokecache.Cache
+	pokedex          map[string]pokeapi.Pokemon
 	nextLocationsURL *string
 	prevLocationsURL *string
 }
@@ -81,6 +80,11 @@ func getCommands() map[string]cliCommand {
 			name:        "explore",
 			description: "List pokemons in the specified area",
 			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch",
+			description: "Throw your pokeball at a pokemon!",
+			callback:    commandCatch,
 		},
 	}
 }
