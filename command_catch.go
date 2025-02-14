@@ -31,9 +31,6 @@ func commandCatch(cfg *config, args ...string) error {
 
 	fmt.Printf("%s was caught !\n", pokemon.Name)
 	cfg.pokedex[pokemon.Name] = pokemon // add Pokemon to pokedex
-	for key := range cfg.pokedex {
-		fmt.Println(key)
-	}
 	return nil
 }
 
