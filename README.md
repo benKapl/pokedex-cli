@@ -19,7 +19,7 @@ Cette application en ligne de commande utilise l'API [Pokeapi](https://pokeapi.c
 git clone https://github.com/benKapl/pokedex-cli.git
 
 # Déplacez vous dans le dossier
-cd your-project
+cd pokedex-cli
 
 # Lancer la compilation
 go build
