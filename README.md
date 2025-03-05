@@ -1,6 +1,8 @@
 # POKEDEX CLI
 
-Explorez le mondes Pokemon et collectionnez-les, directement depuis votre terminal !
+![Demo](/demo_pokedex-cli.gif)
+
+Explorez le monde des Pokemons et collectionnez-les, directement depuis votre terminal !
 
 Cette application en ligne de commande utilise l'API [Pokeapi](https://pokeapi.co/api/v2) pour récupérer des informations sur les Pokemon et les lieux. 
 
